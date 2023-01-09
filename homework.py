@@ -36,12 +36,12 @@ logger = logging.getLogger(__name__)
 
 
 def check_tokens():
-    """Проверка на наличие переменных"""
+    """Проверка на наличие переменных."""
     if all([TELEGRAM_TOKEN, PRACTICUM_TOKEN,
             TELEGRAM_CHAT_ID]) is False:
-            logging.critical('Отсутсвуют переменные')
-            raise AssertionError('Программа принудительно останавливается'
-                                'так как нет переменных')
+            logging.critical(f'Отсутсвуют переменные')
+            raise AssertionError(f'Программа принудительно останавливается'
+                                f'так как нет переменных')
     return True
 
 
@@ -57,7 +57,7 @@ def send_message(bot, message):
 
 
 def get_api_answer(timestamp):
-    """"делает запрос"""
+    """Делает запрос."""
     payload = {'from_date': timestamp}
     try:
         homework_statuses = requests.get(
