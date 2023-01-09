@@ -1,20 +1,14 @@
-from http import HTTPStatus
-
 import logging
 import os
-
 import time
-from tokenize import TokenError
-
 import requests
-from dotenv import load_dotenv
-
-from exceptions import (AssertionError, SendmessageError, 
-                        PracticumAPIError, FormatError, TokenError)
-from dotenv import load_dotenv
 import telegram
 
 from dotenv import load_dotenv
+from http import HTTPStatus
+
+from exceptions import (AssertionError, SendmessageError, 
+                        PracticumAPIError, FormatError, TokenError)
 
 load_dotenv()
 
@@ -39,6 +33,7 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+
 
 def check_tokens():
     """ Проверка на наличие переменных """
@@ -77,7 +72,6 @@ def get_api_answer(timestamp):
         return homework_statuses.json()
     except Exception as error:
         raise FormatError(f'Формат не json {error}')
-
 
 
 def check_response(response):
