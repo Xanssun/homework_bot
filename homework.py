@@ -39,9 +39,9 @@ def check_tokens():
     """Проверка на наличие переменных."""
     if all([TELEGRAM_TOKEN, PRACTICUM_TOKEN,
             TELEGRAM_CHAT_ID]) is False:
-            logging.critical('Отсутсвуют переменные')
-            raise AssertionError('Программа принудительно останавливается '
-                                'так как нет переменных')
+        logging.critical('Отсутсвуют переменные')
+        raise AssertionError('Программа принудительно останавливается '
+                             'так как нет переменных')
     return True
 
 
