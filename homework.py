@@ -7,7 +7,7 @@ import telegram
 from dotenv import load_dotenv
 from http import HTTPStatus
 
-from exceptions import (AssertionError, SendmessageError, 
+from exceptions import (AssertionError, SendmessageError,
                         PracticumAPIError, FormatError, TokenError)
 
 load_dotenv()
@@ -36,14 +36,14 @@ logger = logging.getLogger(__name__)
 
 
 def check_tokens():
-    """ Проверка на наличие переменных """
+    """Проверка на наличие переменных"""
     if all([TELEGRAM_TOKEN, PRACTICUM_TOKEN,
             TELEGRAM_CHAT_ID]) is False:
             logging.critical('Отсутсвуют переменные')
             raise AssertionError('Программа принудительно останавливается'
                                 'так как нет переменных')
     return True
-    
+
 
 def send_message(bot, message):
     """Отправка сообщения ботом."""
@@ -57,7 +57,7 @@ def send_message(bot, message):
 
 
 def get_api_answer(timestamp):
-    """" делает запрос """
+    """"делает запрос"""
     payload = {'from_date': timestamp}
     try:
         homework_statuses = requests.get(
