@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import time
 import requests
 import telegram
@@ -7,8 +8,7 @@ import telegram
 from dotenv import load_dotenv
 from http import HTTPStatus
 
-from exceptions import (AssertionError, SendmessageError,
-                        PracticumAPIError, FormatError, TokenError)
+from exceptions import (SendmessageError, PracticumAPIError)
 
 load_dotenv()
 
@@ -40,7 +40,7 @@ def check_tokens():
     if all([TELEGRAM_TOKEN, PRACTICUM_TOKEN,
             TELEGRAM_CHAT_ID]) is False:
         logging.critical('Отсутсвуют переменные')
-        raise AssertionError('Программа принудительно останавливается '
+        raise sys.exit('Программа принудительно останавливается '
                              'так как нет переменных')
     return True
 
@@ -68,22 +68,18 @@ def get_api_answer(timestamp):
         logging.error('сбои при запросе к эндпоинту ',
                       f'{homework_statuses.status_code}')
         raise PracticumAPIError('Yandex лежит')
-    try:
-        return homework_statuses.json()
-    except Exception as error:
-        raise FormatError(f'Формат не json {error}')
+    return homework_statuses.json()
 
 
 def check_response(response):
     """Проверка ответа Json."""
-    try:
-        value = response['homeworks']
-    except KeyError:
+    if not isinstance(response, dict):
+        raise TypeError('Не словарь')
+    if not response.get('homeworks'):
         raise KeyError('Нет ключа в словаре')
-    if not isinstance(response['homeworks'], list):
+    value = response['homeworks']
+    if not isinstance(value, list):
         raise TypeError('Не список')
-    if 'code' in response:
-        raise PracticumAPIError('Ошибка ответа API сервера')
     if value:
         return response['homeworks'][0]
     else:
@@ -106,8 +102,7 @@ def parse_status(homework):
 def main():
     """Основная логика работы бота."""
     answer = ''
-    if not check_tokens():
-        return TokenError('Ошибка токена')
+    check_tokens()
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     timestamp = int(time.time())
 
