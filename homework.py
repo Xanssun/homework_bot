@@ -41,7 +41,7 @@ def check_tokens():
             TELEGRAM_CHAT_ID]) is False:
         logging.critical('Отсутсвуют переменные')
         raise sys.exit('Программа принудительно останавливается '
-                             'так как нет переменных')
+                        'так как нет переменных')
     return True
 
 
