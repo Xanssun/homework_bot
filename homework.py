@@ -47,10 +47,9 @@ def check_tokens():
 
 def send_message(bot, message):
     """Отправка сообщения ботом."""
-    text = message
     try:
-        bot.send_message(TELEGRAM_CHAT_ID, text)
-        logging.debug(f'Отправил сообщения {text}')
+        bot.send_message(TELEGRAM_CHAT_ID, message)
+        logging.debug(f'Отправил сообщения {message}')
     except telegram.error.TelegramError as error:
         logging.error(f'Сбой в работе программы: {error}')
         raise SendmessageError(f'Ошибка отправки сообщения{error}')
@@ -80,10 +79,10 @@ def check_response(response):
     value = response['homeworks']
     if not isinstance(value, list):
         raise TypeError('Не список')
-    if value:
-        return response['homeworks'][0]
-    else:
+    if not value:
         raise IndexError('Пустой список')
+    else:
+        return response['homeworks'][0]
 
 
 def parse_status(homework):
